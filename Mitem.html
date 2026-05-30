@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ក្បួនទស្សន៍ទាយលេខទូរស័ព្ទ</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* ទម្រង់ទូទៅ (Global Reset) */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Kantumruy Pro', sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* ប្តូរពណ៌ Background ឱ្យមានទំងន់ និងស៊ីជម្រៅជាងមុន */
+        background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
+        padding: 20px;
+        overflow-x: hidden;
+    }
+
+    /* បន្ថែមពន្លឺព្រិលៗនៅខាងក្រោយកាត (Glow Effects) */
+    body::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: #3b82f6;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.2;
+        top: 20%;
+        left: 25%;
+        z-index: 0;
+    }
+
+    body::after {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: #a855f7;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.2;
+        bottom: 20%;
+        right: 25%;
+        z-index: 0;
+    }
+
+    /* កាតមេ (Main Card Container) */
+    .card {
+        width: 100%;
+        max-width: 550px;
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 28px;
+        padding: 40px 30px;
+        color: #f8fafc;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ចំណងជើង */
+    .title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        background: linear-gradient(to right, #fef08a, #facc15);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+        text-align: center;
+        font-size: 15px;
+        color: #cbd5e1;
+        opacity: 0.85;
+        margin-bottom: 30px;
+        font-weight: 300;
+    }
+
+    .input-box {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    /* ប្រអប់បញ្ចូលលេខទូរស័ព្ទ */
+    input {
+        width: 100%;
+        padding: 16px 20px;
+        border: 2px solid rgba(255, 255, 255, 0.05);
+        outline: none;
+        border-radius: 16px;
+        font-size: 18px;
+        background: rgba(15, 23, 42, 0.6);
+        color: #ffffff;
+        text-align: center;
+        letter-spacing: 2px;
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        background: rgba(15, 23, 42, 0.8);
+    }
+
+    input::placeholder {
+        color: #94a3b8;
+        letter-spacing: 0px;
+        font-size: 16px;
+    }
+
+    /* ប៊ូតុងចុច */
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+        filter: brightness(1.1);
+    }
+
+    button:active {
+        transform: translateY(1px);
+    }
+
+    /* ប្រអប់បង្ហាញលទ្ធផល */
+    .result {
+        display: none;
+        margin-top: 30px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 25px;
+        border-radius: 20px;
+        /* ចលនាពេលលទ្ធផលលោតចេញមក */
+        animation: slideDown 0.5s ease forwards;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .result-heading {
+        text-align: center;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #94a3b8;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+
+    .number {
+        font-size: 55px;
+        font-weight: 700;
+        color: #facc15;
+        text-align: center;
+        line-height: 1;
+        margin-bottom: 10px;
+        text-shadow: 0 0 20px rgba(250, 204, 21, 0.3);
+    }
+
+    /* ពណ៌ផ្អែកលើប្រភេទលទ្ធផល (នឹងគ្រប់គ្រងតាមរយៈ JS) */
+    .type {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        padding: 4px 16px;
+        border-radius: 30px;
+        width: max-content;
+        margin: 10px auto;
+    }
+    
+    /* ថ្នាក់ពណ៌ជំនួយសម្រាប់ប្រភេទលទ្ធផល */
+    .type-good { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+    .type-normal { background: rgba(250, 204, 21, 0.15); color: #140ad2; }
+    .type-bad { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+
+    .detail {
+        margin-top: 15px;
+        line-height: 1.7;
+        text-align: center;
+        color: #e2e8f0;
+        font-size: 16px;
+    }
+
+    /* បាតក្រោម (Footer) */
+    .footer {
+        margin-top: 30px;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 300;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding-top: 15px;
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="title">
+        🔮 ក្បួនទស្សន៍ទាយលេខទូរស័ព្ទ 🔮
+    </div>
+
+    <div class="subtitle">
+        បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក ដើម្បីគណនាលទ្ធផលផ្សងសំណាង
+    </div>
+
+    <div class="input-box">
+        <input type="tel"
+               id="phone"
+               placeholder="ឧទាហរណ៍៖ "
+               maxlength="10">
+    </div>
+
+    <button onclick="predictPhone()">
+        ទស្សន៍ទាយឥឡូវនេះ
+    </button>
+
+    <div class="result" id="resultBox">
+        <div class="result-heading">លេខកូដតម្រាយរបស់អ្នកគឺ</div>
+        <div class="number" id="finalNumber"></div>
+        <div class="type" id="status"></div>
+        <div class="detail" id="description"></div>
+    </div>
+
+    <div class="footer">
+        គណនាតាមក្បួនតម្រាយ៖ យកលេខ ៦ ខ្ទង់ចុងក្រោយ ÷ 80
+    </div>
+
+</div>
+
+<script>
+
+const results = {
+1:{type:"ល្អណាស់",desc:"រីកចម្រើន អាចទទួលបានជ័យជំនះ"},
+2:{type:"ធម្មតា",desc:"មានលាភមានបង់ មិនទទួលផលអ្វីច្រើន"},
+3:{type:"ល្អណាស់",desc:"មានភាពរីកចម្រើន អាចសម្រេចបានដូចបំណង"},
+4:{type:"អាក្រក់",desc:"អនាគតមានឧបសគ្គច្រើន លំបាកវេទនា"},
+5:{type:"ល្អណាស់",desc:"រកស៊ីមានបាន ទទួលបានកិត្តិយស និងផលប្រយោជន៍"},
+6:{type:"ល្អណាស់",desc:"មានសំណាងច្រើន អាចទទួលបានទ្រព្យសម្បត្តិធំ"},
+7:{type:"ល្អ",desc:"មានចិត្តអត់ធ្មត់ អាចទទួលបានជោគជ័យ"},
+8:{type:"ល្អ",desc:"មានឱកាសទទួលបានជោគជ័យ"},
+9:{type:"អាក្រក់",desc:"ឯកោ គ្មានអ្នកជួយ"},
+10:{type:"អាក្រក់",desc:"ខិតខំដោយឥតបានផល"},
+11:{type:"ល្អ",desc:"មានលំនឹងល្អ អ្នកដទៃសរសើរ"},
+12:{type:"អាក្រក់",desc:"ទន់ខ្សោយ ធ្វើអ្វីក៏មិនសម្រេច"},
+13:{type:"ល្អណាស់",desc:"មានសំណាងល្អ ក្តីសង្ឃឹមច្រើន"},
+14:{type:"ធម្មតា",desc:"ជ័យជំនះ ឬបរាជ័យ ពឹងលើការតាំងចិត្ត"},
+15:{type:"ល្អ",desc:"មានការរីកចម្រើន និងជ័យជំនះ"},
+16:{type:"ល្អណាស់",desc:"សម្រេចកិច្ចការធំ ទទួលបានកិត្តិយស"},
+17:{type:"ល្អ",desc:"មានអ្នកធំជួយ អាចទទួលបានជោគជ័យ"},
+18:{type:"ល្អ",desc:"មានភាពរីកចម្រើន សម្រេចបានដូចបំណង"},
+19:{type:"អាក្រក់",desc:"មានទំនាស់ និងឧបសគ្គច្រើន"},
+20:{type:"អាក្រក់",desc:"ឧបសគ្គច្រើន ពិបាកចិត្ត"},
+21:{type:"ល្អ",desc:"ធ្វើការល្អ មានប្រាជ្ញា"},
+22:{type:"អាក្រក់ណាស់",desc:"ខាតលាភ ធ្វើអ្វីក៏មិនសម្រេច"},
+23:{type:"ល្អណាស់",desc:"កិត្តិយសល្អ សម្រេចកិច្ចការធំ"},
+24:{type:"ល្អ",desc:"ពឹងសមត្ថភាពខ្លួនឯង អាចសម្រេចការងារ"},
+25:{type:"ល្អណាស់",desc:"មានសំណាងល្អ មានគេជួយ"},
+26:{type:"អាក្រក់ណាស់",desc:"មានឧបសគ្គច្រើន"},
+27:{type:"ល្អ",desc:"មានលាភសំណាង និងជ័យជំនះ"},
+28:{type:"ល្អណាស់",desc:"រាសីខ្ពស់ រកស៊ីមានបាន"},
+29:{type:"អាក្រក់",desc:"សំណាងល្អ និងអាក្រក់ កើតឡើងព្រមគ្នា"},
+30:{type:"ល្អណាស់",desc:"ទទួលបានលាភសំណាង និងកិត្តិយស"},
+31:{type:"ល្អណាស់",desc:"មានសំណាង អាចទទួលជោគជ័យ"},
+32:{type:"ល្អ",desc:"មានប្រាជ្ញាឈ្លាសវៃ រីកចម្រើន"},
+33:{type:"អាក្រក់ណាស់",desc:"ជួបឧបសគ្គច្រើន ពិបាកទទួលជោគជ័យ"},
+34:{type:"ធម្មតា",desc:"ត្រូវមានលំនឹងចិត្ត កុំលោភលន់"},
+35:{type:"អាក្រក់",desc:"ជួបភាពលំបាក និងក្រខ្សត់"},
+36:{type:"ល្អ",desc:"ឧបសគ្គអាចក្លាយជាសំណាង"},
+37:{type:"ធម្មតា",desc:"ទទួលបានកិត្តិយស តែលាភសំណាងតិច"},
+38:{type:"ល្អណាស់",desc:"អនាគតភ្លឺស្វាង"},
+39:{type:"ធម្មតា",desc:"សំណាង និងឧបសគ្គ មិនទៀងទាត់"},
+40:{type:"ល្អណាស់",desc:"មានសំណាងល្អ អនាគតភ្លឺស្វាង"},
+41:{type:"អាក្រក់",desc:"រកស៊ីខាតបង់"},
+42:{type:"ល្អ",desc:"បើអត់ធ្មត់ សំណាងអាក្រក់អាចក្លាយជាល្អ"},
+43:{type:"អាក្រក់",desc:"ពិបាកសម្រេចតាមបំណង"},
+44:{type:"ល្អ",desc:"មានសំណាង និងភាពរីកចម្រើន"},
+45:{type:"ល្អណាស់",desc:"ជួបឧបសគ្គតែអាចឆ្លងផុត"},
+46:{type:"ល្អណាស់",desc:"មានគេជួយគាំទ្រ អាចប្រកបមុខជំនួញបាន"},
+47:{type:"ល្អណាស់",desc:"មានទាំងកិត្តិយស និងទ្រព្យសម្បត្តិ"},
+48:{type:"ធម្មតា",desc:"មានឧបសគ្គ និងសំណាងរួមគ្នា"},
+49:{type:"ធម្មតា",desc:"មានឧបសគ្គ និងសំណាងរួមគ្នា"},
+50:{type:"ធម្មតា",desc:"លាភសំណាង និងឧបសគ្គ មិនទៀង"},
+51:{type:"ល្អ",desc:"ខិតខំ និងទទួលបានជោគជ័យ"},
+52:{type:"អាក្រក់",desc:"មានសំណាង ប៉ុន្តែឧបសគ្គតាមក្រោយ"},
+53:{type:"ធម្មតា",desc:"ខិតខំច្រើន តែទទួលលទ្ធផលតិច"},
+54:{type:"អាក្រក់",desc:"មើលទៅល្អ តែមានឧបសគ្គ និងគ្រោះថ្នាក់"},
+55:{type:"អាក្រក់ណាស់",desc:"ជួបឧបសគ្គច្រើន និងគ្រោះថ្នាក់"},
+56:{type:"ល្អ",desc:"ខិតខំអាចផ្លាស់ប្តូរជោគវាសនា"},
+57:{type:"ធម្មតា",desc:"មានឧបសគ្គច្រើន តែសំណាងនឹងមកក្រោយ"},
+58:{type:"អាក្រក់",desc:"ជួបបញ្ហាចិត្ត ពិបាកសម្រេចចិត្ត"},
+59:{type:"ធម្មតា",desc:"ចិត្តច្របូកច្របល់ ពិបាកសម្រេចចិត្ត"},
+60:{type:"អាក្រក់",desc:"ជួបឧបសគ្គច្រើន"},
+61:{type:"អាក្រក់",desc:"មានរឿងស្មុគស្មាញច្រើន"},
+62:{type:"ល្អ",desc:"ខិតខំ និងទទួលបានផលប្រយោជន៍"},
+63:{type:"អាក្រក់",desc:"ខិតខំ តែមិនទទួលបានផល"},
+64:{type:"ល្អ",desc:"មានសំណាងល្អ អាចធ្វើជំនួញធំ"},
+65:{type:"ធម្មតា",desc:"ល្អ ប៉ុន្តែខ្វះទំនុកចិត្តលើខ្លួនឯង"},
+66:{type:"ល្អណាស់",desc:"ធ្វើអ្វីៗសម្រេច មានប្រាក់ហូរចូល"},
+67:{type:"ល្អ",desc:"ចាប់យកឱកាសល្អ អាចទទួលជោគជ័យ"},
+68:{type:"អាក្រក់",desc:"ស្ថានភាពមិននឹងនរ ជួបឧបសគ្គច្រើន"},
+69:{type:"អាក្រក់",desc:"រកស៊ីខាតបង់ និងមានឧបសគ្គ"},
+70:{type:"ធម្មតា",desc:"ល្អ ឬអាក្រក់ អាស្រ័យលើភាពក្លាហាន"},
+71:{type:"អាក្រក់",desc:"បានហើយបែរជាបាត់បង់វិញ"},
+72:{type:"ល្អ",desc:"មានសុភមង្គល និងសំណាងល្អ"},
+73:{type:"ធម្មតា",desc:"ពិបាកទទួលបានជោគជ័យ"},
+74:{type:"ធម្មតា",desc:"មានទាំងសំណាងល្អ និងសំណាងអាក្រក់"},
+75:{type:"អាក្រក់",desc:"ការងាររកស៊ីខាតបង់"},
+76:{type:"ល្អ",desc:"មានមនុស្សនៅពីក្រោយជួយ"},
+77:{type:"ធម្មតា",desc:"មានលាភមានបង់"},
+78:{type:"ធម្មតា",desc:"អនាគតមិនសូវភ្លឺស្វាង"},
+79:{type:"អាក្រក់",desc:"ខិតខំ តែខាតបង់វិញ"},
+80:{type:"ល្អណាស់",desc:"អាចទទួលបានជោគជ័យច្រើន"}
+};
+
+function predictPhone(){
+    let phone = document.getElementById("phone").value.replace(/\D/g,'');
+
+    if(phone.length < 6){
+        alert("សូមបញ្ចូលលេខទូរស័ព្ទយ៉ាងតិច 6 ខ្ទង់");
+        return;
+    }
+
+    let last6 = phone.slice(-6);
+    let divide = Number(last6) / 80;
+    let decimal = divide - Math.floor(divide);
+    let result = Math.ceil(decimal * 80);
+
+    if(result === 0){
+        result = 80;
+    }
+
+    let data = results[result];
+
+    if(!data){
+        data = { type:"មិនទាន់មានទិន្នន័យ", desc:"សូមបន្ថែមលទ្ធផលលេខនេះ" };
+    }
+
+    let statusElement = document.getElementById("status");
+    statusElement.className = "type"; // reset class ចាស់
+    
+    if(data.type.includes("ល្អ")) {
+        statusElement.classList.add("type-good");
+    } else if(data.type.includes("អាក្រក់")) {
+        statusElement.classList.add("type-bad");
+    } else {
+        statusElement.classList.add("type-normal");
+    }
+
+    // បង្ហាញលទ្ធផលជាមួយនឹង Effect លោតចេញមកឡើងវិញរាល់ពេលចុច
+    let resultBox = document.getElementById("resultBox");
+    resultBox.style.display = "none";
+    setTimeout(() => {
+        resultBox.style.display = "block";
+    }, 10);
+
+    document.getElementById("finalNumber").innerHTML = result;
+    statusElement.innerHTML = data.type;
+    document.getElementById("description").innerHTML = data.desc;
+}
+</script>
+
+</body>
+</html>

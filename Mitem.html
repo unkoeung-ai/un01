@@ -1,308 +1,332 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ក្បួនទស្សន៍ទាយលេខទូរស័ព្ទ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Fortune Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&family=Kantumruy+Pro:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        body {
+            font-family: Arial, 'Hanuman', sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Kantumruy Pro',sans-serif;
-}
+        .container {
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
 
-body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:radial-gradient(circle at center,#1e1b4b 0%,#0f172a 100%);
-    padding:20px;
-}
+        .main-title {
+            font-size: 42px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
 
-.card{
-    width:100%;
-    max-width:550px;
-    background:rgba(30,41,59,.7);
-    backdrop-filter:blur(20px);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:28px;
-    padding:40px 30px;
-    color:#f8fafc;
-}
+        .sub-title {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-bottom: 45px;
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
 
-.title{
-    text-align:center;
-    font-size:28px;
-    font-weight:700;
-    margin-bottom:10px;
-    color:#facc15;
-}
+        .predict-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 24px;
+            padding: 40px 35px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: left;
+        }
 
-.subtitle{
-    text-align:center;
-    color:#cbd5e1;
-    margin-bottom:30px;
-}
+        .card-header {
+            text-align: center;
+            font-size: 22px;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
 
-input{
-    width:100%;
-    padding:16px;
-    border:none;
-    outline:none;
-    border-radius:16px;
-    background:#0f172a;
-    color:white;
-    text-align:center;
-    font-size:18px;
-    margin-bottom:20px;
-}
+        .message-box {
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 22px;
+            font-weight: bold;
+            font-size: 14px;
+            display: none; 
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
 
-button{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:16px;
-    background:#16a34a;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-    transition: background 0.2s;
-}
+        .success {
+            background: rgba(34,197,94,0.12);
+            color: #86efac;
+            border: 1px solid rgba(34,197,94,0.18);
+        }
 
-button:hover{
-    background:#15803d;
-}
+        .error {
+            background: rgba(239,68,68,0.12);
+            color: #fca5a5;
+            border: 1px solid rgba(239,68,68,0.18);
+        }
 
-.result{
-    display:none;
-    margin-top:25px;
-    padding:25px;
-    border-radius:20px;
-    background:rgba(255,255,255,.05);
-}
+        .form-group {
+            margin-bottom: 22px;
+        }
 
-.result-heading{
-    text-align:center;
-    color:#94a3b8;
-}
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 15px;
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
 
-.number{
-    font-size:55px;
-    text-align:center;
-    color:#facc15;
-    margin-top:10px;
-}
+        .form-group input {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: #0f172a;
+            color: #ffffff;
+            outline: none;
+            font-size: 18px;
+            letter-spacing: 1px;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
 
-.type{
-    text-align:center;
-    margin:15px auto;
-    width:max-content;
-    padding:8px 20px;
-    border-radius:30px;
-    font-size:20px;
-    font-weight:600;
-}
+        .form-group input:focus {
+            border-color: rgba(96,165,250,0.45);
+        }
 
-.type-good{
-    background:rgba(34,197,94,.15);
-    color:#4ade80;
-}
+        .btn-submit {
+            width: 100%;
+            padding: 15px 24px;
+            border: none;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 16px;
+            font-family: 'Kantumruy Pro', sans-serif;
+            cursor: pointer;
+            background: linear-gradient(135deg, #0ea5e9, #2563eb);
+            color: white;
+            box-shadow: 0 8px 20px rgba(14,165,233,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-.type-normal{
-    background:rgba(250,204,21,.15);
-    color:#facc15;
-}
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(14,165,233,0.3);
+        }
 
-.type-bad{
-    background:rgba(239,68,68,.15);
-    color:#f87171;
-}
+        .result-display {
+            margin-top: 30px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 22px;
+            display: none; 
+        }
 
-.detail{
-    text-align:center;
-    line-height:1.8;
-    color:#e2e8f0;
-}
+        .result-number {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(6, 182, 212, 0.15);
+            color: #22d3ee;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 14px;
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
 
-.footer{
-    margin-top:25px;
-    text-align:center;
-    color:#94a3b8;
-}
-</style>
+        .result-text {
+            color: #e2e8f0;
+            font-size: 16px;
+            line-height: 1.6;
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
+
+        .result-text span {
+            color: #60a5fa;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
-<div class="card">
+<div class="container">
+    <h1 class="main-title">Phone Fortune Predictor</h1>
+    <p class="sub-title">កម្មវិធីទស្សន៍ទាយជោគជតារាសីតាមលេខទូរស័ព្ទ (បែបចិន) - បង្កើតឡើងដោយកូដ JavaScript</p>
 
-<div class="title">
-🔮 ក្បួនទស្សន៍ទាយលេខទូរស័ព្ទ 🔮
-</div>
+    <div class="predict-card">
+        <div class="card-header">
+            🔮 ពិនិត្យលេខទូរស័ព្ទរបស់អ្នក 🔮
+        </div>
 
-<div class="subtitle">
-បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក ដើម្បីគណនាលទ្ធផល
-</div>
+        <div id="success-box" class="message-box success"></div>
+        <div id="error-box" class="message-box error"></div>
 
-<input
-type="tel"
-id="phone"
-placeholder="ឧទាហរណ៍៖ 012345678"
-maxlength="10">
+        <form id="fortuneForm" onsubmit="predictFortune(event)">
+            <div class="form-group">
+                <label for="phone_number">បញ្ចូលលេខទូរស័ព្ទ</label>
+                <input type="text" id="phone_number" name="phone_number" placeholder="ឧទហរណ៍៖ 012345678" maxlength="12" autocomplete="off">
+            </div>
+            <button type="submit" class="btn-submit">គណនាផលទស្សន៍ទាយ</button>
+        </form>
 
-<button onclick="predictPhone()">
-ទស្សន៍ទាយឥឡូវនេះ
-</button>
-
-<div class="result" id="resultBox">
-
-<div class="result-heading">
-លេខកូដតម្រាយរបស់អ្នកគឺ
-</div>
-
-<div class="number" id="finalNumber"></div>
-
-<div class="type" id="status"></div>
-
-<div class="detail" id="description"></div>
-
-</div>
-
-<div class="footer">
-គណនាតាមក្បួន៖ យកលេខ ៦ ខ្ទង់ចុងក្រោយ ÷ 80
-</div>
-
+        <div id="result-display" class="result-display">
+            <div id="result-number" class="result-number"></div>
+            <div class="result-text">
+                <strong>ទំនាយពោលថា៖</strong> <span id="result-text-content"></span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-const results = {
-    1:{type:"ល្អណាស់",desc:"រីកចម្រើន អាចទទួលបានជ័យជំនះ"},
-    2:{type:"ធម្មតា",desc:"មានលាភមានបង់ មិនទទួលផលអ្វីច្រើន"},
-    3:{type:"ល្អណាស់",desc:"មានភាពរីកចម្រើន អាចសម្រេចបានដូចបំណង"},
-    4:{type:"អាក្រក់",desc:"អនាគតមានឧបសគ្គច្រើន លំបាកវេទនា"},
-    5:{type:"ល្អណាស់",desc:"រកស៊ីមានបាន ទទួលបានកិត្តិយស និងផលប្រយោជន៍"},
-    6:{type:"ល្អណាស់",desc:"មានសំណាងច្រើន អាចទទួលបានទ្រព្យសម្បត្តិធំ"},
-    7:{type:"ល្អ",desc:"មានចិត្តអត់ធ្ត់ អាចទទួលបានជោគជ័យ"},
-    8:{type:"ល្អ",desc:"មានឱកាសទទួលបានជោគជ័យ"},
-    9:{type:"អាក្រក់",desc:"ឯកោ គ្មានអ្នកជួយ"},
-    10:{type:"អាក្រក់",desc:"ខិតខំដោយឥតបានផល"},
-    11:{type:"ល្អ",desc:"មានលំនឹងល្អ អ្នកដទៃសរសើរ"},
-    12:{type:"អាក្រក់",desc:"ទន់ខ្សោយ ធ្វើអ្វីក៏មិនសម្រេច"},
-    13:{type:"ល្អណាស់",desc:"មានសំណាងល្អ ក្តីសង្ឃឹមច្រើន"},
-    14:{type:"ធម្មតា",desc:"ជ័យជំនះ ឬបរាជ័យ ពឹងលើការតាំងចិត្ត"},
-    15:{type:"ល្អ",desc:"មានការរីកចម្រើន និងជ័យជំនះ"},
-    16:{type:"ល្អណាស់",desc:"សម្រេចកិច្ចការធំ ទទួលបានកិត្តិយស"},
-    17:{type:"ល្អ",desc:"មានអ្នកធំជួយ អាចទទួលបានជោគជ័យ"},
-    18:{type:"ល្អ",desc:"មានភាពរីកចម្រើន សម្រេចបានដូចបំណង"},
-    19:{type:"អាក្រក់",desc:"មានទំនាស់ និងឧបសគ្គច្រើន"},
-    20:{type:"អាក្រក់",desc:"ឧបសគ្គច្រើន ពិបាកចិត្ត"},
-    21:{type:"ល្អ",desc:"ធ្វើការល្អ មានប្រាជ្ញា"},
-    22:{type:"អាក្រក់ណាស់",desc:"ខាតលាភ ធ្វើអ្វីក៏មិនសម្រេច"},
-    23:{type:"ល្អណាស់",desc:"កិត្តិយសល្អ សម្រេចកិច្ចការធំ"},
-    24:{type:"ល្អ",desc:"ពឹងសមត្ថភាពខ្លួនឯង អាចសម្រេចការងារ"},
-    25:{type:"ល្អណាស់",desc:"មានសំណាងល្អ មានគេជួយ"},
-    26:{type:"អាក្រក់ណាស់",desc:"មានឧបសគ្គច្រើន"},
-    27:{type:"ល្អ",desc:"មានលាភសំណាង និងជ័យជំនះ"},
-    28:{type:"ល្អណាស់",desc:"រាសីខ្ពស់ រកស៊ីមានបាន"},
-    29:{type:"អាក្រក់",desc:"សំណាងល្អ និងអាក្រក់ កើតឡើងព្រមគ្នា"},
-    30:{type:"ល្អណាស់",desc:"ទទួលបានលាភសំណាង និងកិត្តិយស"},
-    31:{type:"ល្អណាស់",desc:"មានសំណាង អាចទទួលជោគជ័យ"},
-    32:{type:"ល្អ",desc:"មានប្រាជ្ញាឈ្លាសវៃ រីកចម្រើន"},
-    33:{type:"អាក្រក់ណាស់",desc:"ជួបឧបសគ្គច្រើន ពិបាកទទួលជោគជ័យ"},
-    34:{type:"ធម្មតា",desc:"ត្រូវមានលំនឹងចិត្ត កុំលោភលន់"},
-    35:{type:"អាក្រក់",desc:"ជួបភាពលំបាក និងក្រខ្សត់"},
-    36:{type:"ល្អ",desc:"ឧបសគ្គអាចក្លាយជាសំណាង"},
-    37:{type:"ធម្មតា",desc:"ទទួលបានកិត្តិយស តែលាភសំណាងតិច"},
-    38:{type:"ល្អណាស់",desc:"អនាគតភ្លឺស្វាង"},
-    39:{type:"ធម្មតា",desc:"សំណាង និងឧបសគ្គ មិនទៀងទាត់"},
-    40:{type:"ល្អណាស់",desc:"មានសំណាងល្អ អនាគតភ្លឺស្វាង"},
-    41:{type:"អាក្រក់",desc:"រកស៊ីខាតបង់"},
-    42:{type:"ល្អ",desc:"បើអត់ធ្មត់ សំណាងអាក្រក់អាចក្លាយជាល្អ"},
-    43:{type:"អាក្រក់",desc:"ពិបាកសម្រេចតាមបំណង"},
-    44:{type:"ល្អ",desc:"មានសំណាង និងភាពរីកចម្រើន"},
-    45:{type:"ល្អណាស់",desc:"ជួបឧបសគ្គតែអាចឆ្លងផុត"},
-    46:{type:"ល្អណាស់",desc:"មានគេជួយគាំទ្រ អាចប្រកបមុខជំនួញបាន"},
-    47:{type:"ល្អណាស់",desc:"មានទាំងកិត្តិយស និងទ្រព្យសម្បត្តិ"},
-    48:{type:"ធម្មតា",desc:"មានឧបសគ្គ និងសំណាងរួមគ្នា"},
-    49:{type:"ធម្មតា",desc:"មានឧបសគ្គ និងសំណាងរួមគ្នា"},
-    50:{type:"ធម្មតា",desc:"លាភសំណាង និងឧបសគ្គ មិនទៀង"},
-    51:{type:"ល្អ",desc:"ខិតខំ និងទទួលបានជោគជ័យ"},
-    52:{type:"អាក្រក់",desc:"មានសំណាង ប៉ុន្តែឧបសគ្គតាមក្រោយ"},
-    53:{type:"ធម្មតា",desc:"ខិតខំច្រើន តែទទួលលទ្ធផលតិច"},
-    54:{type:"អាក្រក់",desc:"មើលទៅល្អ តែមានឧបសគ្គ និងគ្រោះថ្នាក់"},
-    55:{type:"អាក្រក់ណាស់",desc:"ជួបឧបសគ្គច្រើន និងគ្រោះថ្នាក់"},
-    56:{type:"ល្អ",desc:"ខិតខំអាចផ្លាស់ប្តូរជោគវាសនា"},
-    57:{type:"ធម្មតា",desc:"មានឧបសគ្គច្រើន តែសំណាងនឹងមកក្រោយ"},
-    58:{type:"អាក្រក់",desc:"ជួបបញ្ហាចិត្ត ពិបាកសម្រេចចិត្ត"},
-    59:{type:"ធម្មតា",desc:"ចិត្តច្របូកច្របល់ ពិបាកសម្រេចចិត្ត"},
-    60:{type:"អាក្រក់",desc:"ជួបឧបសគ្គច្រើន"},
-    61:{type:"អាក្រក់",desc:"មានរឿងស្មុគស្មាញច្រើន"},
-    62:{type:"ល្អ",desc:"ខិតខំ និងទទួលបានផលប្រយោជន៍"},
-    63:{type:"អាក្រក់",desc:"ខិតខំ តែមិនទទួលបានផល"},
-    64:{type:"ល្អ",desc:"មានសំណាងល្អ អាចធ្វើជំនួញធំ"},
-    65:{type:"ធម្មតា",desc:"ល្អ ប៉ុន្តែខ្វះទំនុកចិត្តលើខ្លួនឯង"},
-    66:{type:"ល្អណាស់",desc:"ធ្វើអ្វីៗសម្រេច មានប្រាក់ហូរចូល"},
-    67:{type:"ល្អ",desc:"ចាប់យកឱកាសល្អ អាចទទួលជោគជ័យ"},
-    68:{type:"អាក្រក់",desc:"ស្ថានភាពមិននឹងនរ ជួបឧបសគ្គច្រើន"},
-    69:{type:"អាក្រក់",desc:"រកស៊ីខាតបង់ និងមានឧបសគ្គ"},
-    70:{type:"ធម្មតា",desc:"ល្អ ឬអាក្រក់ អាស្រ័យលើភាពក្លាហាន"},
-    71:{type:"អាក្រក់",desc:"បានហើយបែរជាបាត់បង់វិញ"},
-    72:{type:"ល្អ",desc:"មានសុភមង្គល និងសំណាងល្អ"},
-    73:{type:"ធម្មតា",desc:"ពិបាកទទួលបានជោគជ័យ"},
-    74:{type:"ធម្មតា",desc:"មានទាំងសំណាងល្អ និងសំណាងអាក្រក់"},
-    75:{type:"អាក្រក់",desc:"ការងាររកស៊ីខាតបង់"},
-    76:{type:"ល្អ",desc:"មានមនុស្សនៅពីក្រោយជួយ"},
-    77:{type:"ធម្មតា",desc:"មានលាភមានបង់"},
-    78:{type:"ធម្មតា",desc:"អនាគតមិនសូវភ្លឺស្វាង"},
-    79:{type:"អាក្រក់",desc:"ខិតខំ តែខាតបង់វិញ"},
-    80:{type:"ល្អណាស់",desc:"អាចទទួលបានជោគជ័យច្រើន"}
+const rules = {
+    1: "ល្អណាស់ = រីកចំរើនល្អអាចទទួលបានជ័យជំនះ",
+    2: "ធម្មតា = 有លាភមានបង់មិនទទួលផលអ្វីទេ",
+    3: "ល្អណាស់ = មានភាពរីកចំរើនអ្វីៗអាចសំរេចបានដូចបំណង",
+    4: "អាក្រក់ = ផ្លូវអនាគតមានឧបសគ្គច្រើនលំបាកវេទនា",
+    5: "ល្អណាស់ = រកស៊ីមានបានទទួលបានទាំងកិត្តិយសទាំងផលប្រយោជន៍",
+    6: "ល្អណាស់ = 有សំណាងច្រើនអាចទទួលបានគុណសម្បត្តិធំ",
+    7: "ល្អ = មានចិត្តអត់ធ្ត់ពិតជាអាចទទួលបានជោគជ័យដ៏ធំ",
+    8: "ល្អ = អាចមានឱកាសទទួលបានជោគជ័យ",
+    9: "អាក្រក់ = ឯកកោ គ្មានអ្នកជួយពិបាកទទួលទ្រព្យមកវិញ",
+    10: "អាក្រក់ = ខាតបង់ទឹកចិត្តនិងកម្លាំងទទេ ខិតខំដោយឥតបានផល",
+    11: "ល្អ = មានលំនឹងល្អអ្នកដទៃស្ងើចសរសើរ",
+    12: "អាក្រក់ = ទន់ខ្សោយធ្វើអ្វីក៏មិនបានសម្រេចដែរ",
+    13: "ល្អណាស់ = មានសំណាងល្អក្តីសង្ឃឹមច្រើន",
+    14: "ធម្មតា = ជ័យជំនះ ឬបរាជ័យពឹងផ្អែកលើការតាំងចិត្តរបស់ខ្លួន",
+    15: "ល្អ = ជ័យជំនះច្រើនមានការរីកចម្រើន",
+    16: "ល្អណាស់ = អាចសម្រេចកិច្ចការធំបានទទួលទាំងកិត្តិយសទាំងផលប្រយោជន៍",
+    17: "ល្អ = មានអ្នកធំជួយអាចទទួលបានជោគជ័យ",
+    18: "ល្អ = មានភាពរីកចម្រើននឹងបានសម្រេចដូចបំណង",
+    19: "អាក្រក់ = មានទំនាស់ច្រើនមានឧបសគ្គគ្រប់ជំពូក",
+    20: "អាក្រក់ = ឧបសគ្គច្រើនឈឺច្រើនពិបាកចិត្តច្រើន",
+    21: "ល្អ = ធ្វើការល្អិតល្អន់មានប្រាជ្ញា",
+    22: "អាក្រក់ណាស់ = ខាតបង់លាភធ្វើអ្វីក៏មិនបានសម្រេចដូចបំណងដែរ",
+    23: "ល្អណាស់ = កិត្តិយសល្អសម្រេចកិច្ចការធំបាន",
+    24: "ធម្មតា = ពឹងផ្អែកលើសមត្ថភាពផ្ទាល់ខ្លួនអាចសម្រេចកិច្ចការបាន",
+    25: "ល្អណាស់ = មានសំណាងល្អមានគេជួយ",
+    26: "អាក្រក់ណាស់ = មានឧបសគ្គច្រើន",
+    27: "ល្អ = អាចមានលាភសំណាងនិងជ័យជំនះ",
+    28: "ល្អណាស់ = រាសីឡើងខ្ពស់រកស៊ីមានបាន",
+    29: "អាក្រក់ = សំណាងល្អនិងអាក្រក់ កើតមានឡើងព្រមគ្នា",
+    30: "ល្អណាស់ = ទទួលបាននូវលាភសំណាងនិងកិត្តិយស",
+    31: "ល្អណាស់ = មានសំណាងអាចទទួលជោគជ័យ",
+    32: "ល្អ = មានប្រាជ្ញាឈ្លាសវៃមានភាពរីកចម្រើនច្រើន",
+    33: "អាក្រក់ណាស់ = ជួបឧបសគ្គមិនចេះអស់ពិបាកនឹងទទួលបានជោគជ័យ",
+    34: "ធម្មតា = ត្រូវមានលំនឹងចិត្តកុំលោភលន់",
+    35: "អាក្រក់ = ឧបសគ្គច្រើនតែជួបភាពលំបាក និងក្រខ្សត់",
+    36: "ល្អ = ឧបសគ្គអាចក្លាយជាសំណាងធ្វើអ្វីៗអាចបានដូចបំណង",
+    37: "ធម្មតា = អាចទទួលបាននូវកិត្តិយសតែពិបាកទទួលនូវលាភសំណាង",
+    38: "ល្អណាស់ = អនាគតភ្លឺស្វាងត្រចះត្រចង់",
+    39: "ធម្មតា = មានសំណាងឬឧបសគ្គមានមិនទៀង",
+    40: "ល្អណាស់ = មានសំណាងល្អអនាគតល្អហើយភ្លឺស្វាង ត្រចះត្រចង់",
+    41: "អាក្រក់ = ការរកស៊ីត្រូវខាតបង់",
+    42: "ល្អ = បើមានចិត្តអត់ធ្មត់សំណាងអាក្រក់ អាចក្លាយជាមានលាភ",
+    43: "អាក្រក់ = រឿងអ្វីៗពិបាកសម្រេចដូចបំណងប្រាថ្នា",
+    44: "ល្អ = មានសំណាងមានភាពរីកចម្រើន",
+    45: "ល្អណាស់ = ជួបឧបសគ្គ មិនចេះអស់",
+    46: "ល្អណាស់ = មានគេតាមជួយថែរក្សា អាចប្រកបមុខជំនួញបាន",
+    47: "ល្អណាស់ = មានទាំងកិត្តិយសមានទាំងទ្រព្យសម្បត្តិ",
+    48: "ធម្មតា = មានឧបសគ្គហើយក៏មានសំណាងដែរ",
+    49: "ធម្មតា = មានឧបសគ្គហើយក៏មានសំណាងដែរ",
+    50: "ធម្មតា = លាភសំណាងនិងឧបសគ្គគឺមកមិនទៀង",
+    51: "ល្អ = ខិតខំនិងទទួលបានជោគជ័យ",
+    52: "អាក្រក់ = ពេលបានលាភសំណាងនិងមានឧបសគ្គតាមមកពីក្រោយ",
+    53: "ធម្មតា = ខិតខំប្រឹងប្រែងខ្លាំងតែទទួលបានលទ្ធផលតិចតួច",
+    54: "អាក្រក់ = ល្អតែសំបកក្រៅតែតាមការពិតមានឧបសគ្គ និងគ្រោះថ្នាក់",
+    55: "អាក្រក់ណាស់ = ជួបឧបសគ្គ មិនចេះអស់អាចមានគ្រោះថ្នាក់",
+    56: "ធម្មតា = ខិតខំប្រឹងប្រែងអាចកែប្រែនូវជោគវាសនា",
+    57: "ធម្មតា = មានឧបសគ្គច្រើន តែសំណាងល្អនឹងមកពីក្រោយ",
+    58: "អាក្រក់ = ពេលជួបនិងបញ្ហាចិត្តមិននឹងនរពិបាកសម្រេចចិត្ត",
+    59: "ធម្មតា = ចិត្តច្របូកច្របល់ពិបាកសម្រេចចិត្ត",
+    60: "អាក្រក់ = ជួបឧបសគ្គច្រើន",
+    61: "អាក្រក់ = មានរឿងស្មុគស្មាញច្រើនពិបាកសម្រេចអ្វីៗដែលបានប៉ងទុក",
+    62: "ល្អ = ខិតខំនិងទទួលបាននូវផលប្រយោជន៍",
+    63: "អាក្រក់ = ខិតខំ តែគ្មានទទួលបានផលប្រយោជន៍អ្វីឡើយ",
+    64: "ល្អ = មានសំណាងល្អអាចប្រកបមុខជំនួញធំបាន",
+    65: "ធម្មតា = ល្អ តែខ្វះទំនុកចិត្តលើខ្លួនឯង",
+    66: "ល្អណាស់ = ធ្វើអ្វីៗតែងបានសម្រេចមាសប្រាក់ហូរចូលច្រើន",
+    67: "ល្អ = ប្រសិនបើអាចក្តាប់ជាប់នូវឱកាសល្អអាចទទួលបានជោគជំនះ",
+    68: "អាក្រក់ = ស្ថានភាពមិននឹងនរអាចចាញ់បោកគេជួបឧបសគ្គច្រើន",
+    69: "អាក្រក់ = រកស៊ីខាតបង់ជួបភាពច្របូកច្របល់និងឧបសគ្គ",
+    70: "ធម្មតា = សំណាងល្អឬអាក្រក់អាស្រ័យលើភាពក្លាហាន",
+    71: "អាក្រក់ = បានហើយតែប្រែជាបាត់បង់ទៅវិញពិបាកសម្រេចតាមបំណងណាស់",
+    72: "ល្អ = មានសុភមង្គលនិងសំណាងល្អ",
+    73: "ធម្មតា = បើសិនជារុញរាពិបាកនិងទទួលជោគជំនះណាស់",
+    74: "ធម្មតា = មានសំណាងល្អណាស់ក៏មានសំណាងអាក្រក់ដែរ",
+    75: "អាក្រក់ = ការងាររកស៊ីខាតបង់ឱកាស អស់ទ្រព្យសម្បត្តិ",
+    76: "ល្អ = ពិបាកមុនស្រណុកក្រោយ",
+    77: "ធម្មតា = មានលាភមានបង់មិនអាចស្តុកស្តម្ភ",
+    78: "ធម្មតា = អនាគតមិនសូវភ្លឺស្វាងទេហើយក៏មិនសូវមានទ្រព្យសម្បត្តិដែរ",
+    79: "អាក្រក់ = បានហើយតែប្រែជាខាតបង់ទៅវិញខិតខំឥតប្រយោជន៍",
+    80: "ល្អណាស់ = អាចទទួលបានជោគជ័យច្រើន"
 };
 
-function predictPhone() {
-    let phone = document.getElementById("phone").value.replace(/\D/g,'');
+function predictFortune(event) {
+    event.preventDefault();
 
-    if (phone.length < 6) {
-        alert("សូមបញ្ចូលលេខទូរស័ព្ទយ៉ាងតិច 6 ខ្ទង់");
+    let phoneInput = document.getElementById("phone_number").value.replace(/\D/g, '');
+
+    const successBox = document.getElementById("success-box");
+    const errorBox = document.getElementById("error-box");
+    const resultDisplay = document.getElementById("result-display");
+    const resultNumDiv = document.getElementById("result-number");
+    const resultTextSpan = document.getElementById("result-text-content");
+
+    successBox.style.display = "none";
+    errorBox.style.display = "none";
+    resultDisplay.style.display = "none";
+
+    if (phoneInput === "") {
+        errorBox.textContent = "សូមបញ្ចូលលេខទូរស័ព្ទរបស់អ្នក!";
+        errorBox.style.display = "block";
         return;
     }
 
-    let last6 = phone.slice(-6);
-    let divide = Number(last6) / 80;
-    let decimal = divide - Math.floor(divide);
-    let result = Math.ceil(decimal * 80);
-
-    if (result === 0) {
-        result = 80;
+    if (phoneInput.length < 9 || phoneInput.length > 11) {
+        errorBox.textContent = "សូមបញ្ចូលលេខទូរស័ព្ទឱ្យបានត្រឹមត្រូវ (៩ ទៅ ១១ ខ្ទង់)!";
+        errorBox.style.display = "block";
+        return;
     }
+    let last6Digits = phoneInput.slice(-6);
 
-    let data = results[result];
+    let resultNum = (parseInt(last6Digits, 10) % 80) || 80;
 
-    if (!data) {
-        data = {
-            type: "មិនទាន់មានទិន្នន័យ",
-            desc: "សូមបន្ថែមលទ្ធផលលេខនេះ"
-        };
+    if (rules[resultNum]) {
+        successBox.textContent = "គណនាលេខវាសនាបានជោគជ័យ!";
+        successBox.style.display = "block";
+
+        resultNumDiv.textContent = "លទ្ធផលលេខកូដ៖ លេខ " + resultNum;
+        resultTextSpan.textContent = rules[resultNum];
+        resultDisplay.style.display = "block";
     }
-
-    let statusElement = document.getElementById("status");
-    statusElement.className = "type";
-
-    if (data.type === "ល្អ" || data.type === "ល្អណាស់") {
-        statusElement.classList.add("type-good");
-    } else if (data.type === "អាក្រក់" || data.type === "អាក្រក់ណាស់") {
-        statusElement.classList.add("type-bad");
-    } else {
-        statusElement.classList.add("type-normal");
-    }
-
-    document.getElementById("resultBox").style.display = "block";
-    document.getElementById("finalNumber").innerHTML = result;
-    document.getElementById("status").innerHTML = data.type;
-    document.getElementById("description").innerHTML = data.desc;
 }
 </script>
 

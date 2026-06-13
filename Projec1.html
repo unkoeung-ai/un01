@@ -1,78 +1,284 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
 <meta charset="UTF-8">
-<title>Electricity Cost Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>គណនាតម្លៃអគ្គិសនី</title>
 
 <style>
-body{
-    font-family: Arial;
-    background:#0f172a;
-    color:white;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
-.box{
-    width:400px;
-    margin:60px auto;
+
+body{
+    background:#0b1120;
+    color:#f0f0f4;
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:550px;
+}
+
+.card{
     background:#1e293b;
     padding:25px;
-    border-radius:10px;
+    border-radius:15px;
+    margin-bottom:20px;
 }
-input,button{
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#94a3b8;
+    margin-bottom:20px;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:8px;
+}
+
+.input-group input{
     width:100%;
-    padding:10px;
-    margin:8px 0;
+    padding:12px;
     border:none;
-    border-radius:6px;
+    border-radius:8px;
+    background:#334155;
+    color:white;
+    font-size:16px;
 }
+
+.tier-box{
+    background:#334155;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.tier-box p{
+    margin:8px 0;
+}
+
 button{
-    background:#22c55e;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
     color:white;
     font-size:16px;
     cursor:pointer;
 }
-.result{
-    background:#020617;
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+.metric{
+    background:#334155;
     padding:15px;
-    margin-top:15px;
-    border-radius:6px;
-    display:none;
+    border-radius:10px;
+    text-align:center;
+}
+
+.metric h3{
+    font-size:14px;
+    color:#94a3b8;
+}
+
+.metric p{
+    font-size:18px;
+    margin-top:8px;
+    font-weight:bold;
+}
+
+.total{
+    background:#1e40af;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+    margin-top:20px;
+}
+
+.total h2{
+    margin-bottom:10px;
+}
+
+.total p{
+    font-size:35px;
+    font-weight:bold;
 }
 </style>
 </head>
 <body>
 
-<div class="box">
-<h2>⚡ Electricity Cost Calculator</h2>
+<div class="container">
 
-Old Reading (kWh)
-<input type="number" id="old" placeholder="Enter kWh">
+<div class="card">
 
-Price per kWh (៛)
-<input type="number" id="price" placeholder="Enter price">
+<h1>⚡ គណនាតម្លៃអគ្គិសនី</h1>
+<p class="subtitle">គណនាតាមកម្រិតប្រើប្រាស់ EDC</p>
 
-<button onclick="calculate()">Calculate</button>
+<div class="row">
 
-<div class="result" id="result"></div>
+<div class="input-group">
+<label>លេខម៉ែត្រចាស់</label>
+<input type="number" id="old_reading">
+</div>
+
+<div class="input-group">
+<label>លេខម៉ែត្រថ្មី</label>
+<input type="number" id="new_reading">
+</div>
+
+</div>
+
+<div class="tier-box">
+<p>1 - 10 kWh = 380 រៀល</p>
+<p>11 - 50 kWh = 480 រៀល</p>
+<p>51 - 200 kWh = 610 រៀល</p>
+<p>លើសពី 200 kWh = 730 រៀល</p>
+</div>
+
+<button onclick="calculate()">
+គណនា
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="metrics">
+
+<div class="metric">
+<h3>អង្គភាពប្រើ</h3>
+<p id="metric-units">0</p>
+</div>
+
+<div class="metric">
+<h3>តម្លៃមធ្យម</h3>
+<p id="metric-rate">0</p>
+</div>
+
+<div class="metric">
+<h3>ចាស់ → ថ្មី</h3>
+<p id="metric-range">0 → 0</p>
+</div>
+
+</div>
+
+<div class="total">
+<h2>ថ្លៃភ្លើងសរុប</h2>
+<p id="total-display">0</p>
+</div>
+
+</div>
+
 </div>
 
 <script>
-function calculate(){
-    let old = document.getElementById("old").value;
-    let price = document.getElementById("price").value;
 
-    if(old=="" || price==""){
-        alert("Please enter all values");
+function fmtKh(number){
+    return Math.round(number).toLocaleString('en-US');
+}
+
+function calculate(){
+
+    let oldR =
+    parseFloat(document.getElementById("old_reading").value);
+
+    let newR =
+    parseFloat(document.getElementById("new_reading").value);
+
+    if(isNaN(oldR) || isNaN(newR)){
+        alert("សូមបញ្ចូលលេខម៉ែត្រឱ្យបានត្រឹមត្រូវ");
         return;
     }
 
-    let used = old;
-    let total = used * price;
+    if(newR < oldR){
+        alert("លេខម៉ែត្រថ្មីត្រូវធំជាងលេខម៉ែត្រចាស់");
+        return;
+    }
 
-    document.getElementById("result").style.display="block";
-    document.getElementById("result").innerHTML =
-        "Used Electricity: <b>" + used + " kWh</b><br>" +
-        "Total Cost: <b>" + total.toLocaleString() + " ៛</b>";
+    let units = newR - oldR;
+
+    let total = 0;
+
+    let remain = units;
+
+    // កម្រិតទី១
+    if(remain > 0){
+        let tier1 = Math.min(remain,10);
+        total += tier1 * 380;
+        remain -= tier1;
+    }
+
+    // កម្រិតទី២
+    if(remain > 0){
+        let tier2 = Math.min(remain,40);
+        total += tier2 * 480;
+        remain -= tier2;
+    }
+
+    // កម្រិតទី៣
+    if(remain > 0){
+        let tier3 = Math.min(remain,150);
+        total += tier3 * 610;
+        remain -= tier3;
+    }
+
+    // កម្រិតទី៤
+    if(remain > 0){
+        total += remain * 730;
+    }
+
+    let averageRate = 0;
+
+    if(units > 0){
+        averageRate = total / units;
+    }
+
+    document.getElementById("metric-units").innerHTML =
+    units.toFixed(2);
+
+    document.getElementById("metric-rate").innerHTML =
+    fmtKh(averageRate);
+
+    document.getElementById("metric-range").innerHTML =
+    oldR + " → " + newR;
+
+    document.getElementById("total-display").innerHTML =
+    fmtKh(total) + " ៛";
+
 }
+
 </script>
 
 </body>

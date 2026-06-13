@@ -4,136 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>គណនាតម្លៃអគ្គិសនី</title>
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kantumruy Pro', Arial, sans-serif; /* ប្រើប្រាស់ Font ខ្មែរស្អាត */
 }
 
 body{
-    background:#0b1120;
-    color:#f0f0f4;
-    font-family:Arial,sans-serif;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+    background: #0b1120;
+    color: #f0f0f4;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
 .container{
-    width:100%;
-    max-width:550px;
+    width: 100%;
+    max-width: 550px;
 }
 
 .card{
-    background:#1e293b;
-    padding:25px;
-    border-radius:15px;
-    margin-bottom:20px;
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 h1{
-    text-align:center;
-    margin-bottom:10px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 24px;
 }
 
 .subtitle{
-    text-align:center;
-    color:#94a3b8;
-    margin-bottom:20px;
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 20px;
+    font-size: 14px;
 }
 
 .row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-bottom:20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .input-group label{
-    display:block;
-    margin-bottom:8px;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #cbd5e1;
 }
 
 .input-group input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#334155;
-    color:white;
-    font-size:16px;
+    width: 100%;
+    padding: 12px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background: #334155;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #2563eb;
 }
 
 .tier-box{
-    background:#334155;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:20px;
+    background: #1e293b;
+    border: 1px solid #334155;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
 
-.tier-box p{
-    margin:8px 0;
+.tier-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.tier-item span.price {
+    color: #38bdf8;
+    font-weight: 600;
 }
 
 button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    background:#2563eb;
-    color:white;
-    font-size:16px;
-    cursor:pointer;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
 button:hover{
-    background:#1d4ed8;
+    background: #1d4ed8;
 }
 
 .metrics{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .metric{
-    background:#334155;
-    padding:15px;
-    border-radius:10px;
-    text-align:center;
+    background: #334155;
+    padding: 12px 8px;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .metric h3{
-    font-size:14px;
-    color:#94a3b8;
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 400;
 }
 
 .metric p{
-    font-size:18px;
-    margin-top:8px;
-    font-weight:bold;
+    font-size: 15px;
+    margin-top: 6px;
+    font-weight: bold;
+    color: #ffffff;
 }
 
 .total{
-    background:#1e40af;
-    padding:20px;
-    border-radius:12px;
-    text-align:center;
-    margin-top:20px;
+    background: linear-gradient(135deg, #1e40af, #1e3a8a);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .total h2{
-    margin-bottom:10px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #93c5fd;
+    margin-bottom: 5px;
 }
 
 .total p{
-    font-size:35px;
-    font-weight:bold;
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
 }
 </style>
 </head>
@@ -141,144 +172,104 @@ button:hover{
 
 <div class="container">
 
-<div class="card">
+    <div class="card">
+        <h1>⚡ គណនាតម្លៃអគ្គិសនី</h1>
+        <p class="subtitle">គណនាតាមកម្រិតនៃបរិមាណប្រើប្រាស់សរុប</p>
 
-<h1>⚡ គណនាតម្លៃអគ្គិសនី</h1>
-<p class="subtitle">គណនាតាមកម្រិតប្រើប្រាស់ EDC</p>
+        <div class="row">
+            <div class="input-group">
+                <label for="old_reading">លេខគីឡូចាស់</label>
+                <input type="number" id="old_reading" placeholder="ឧ. 1020" step="any">
+            </div>
+            <div class="input-group">
+                <label for="new_reading">លេខគីឡូថ្មី</label>
+                <input type="number" id="new_reading" placeholder="ឧ. 1250" step="any">
+            </div>
+        </div>
 
-<div class="row">
+        <div class="tier-box">
+            <div class="tier-item"><span>ប្រើប្រាស់ក្នុងចន្លោះ (1 - 10 kWh)</span> <span class="price">380 ៛ / kWh</span></div>
+            <div class="tier-item"><span>ប្រើប្រាស់ក្នុងចន្លោះ (11 - 50 kWh)</span> <span class="price">480 ៛ / kWh</span></div>
+            <div class="tier-item"><span>ប្រើប្រាស់ក្នុងចន្លោះ (51 - 200 kWh)</span> <span class="price">610 ៛ / kWh</span></div>
+            <div class="tier-item"><span>ប្រើប្រាស់ចាប់ពី (លើសពី 200 kWh)</span> <span class="price">730 ៛ / kWh</span></div>
+        </div>
 
-<div class="input-group">
-<label>លេខគីឡូចាស់</label>
-<input type="number" id="old_reading">
-</div>
+        <button onclick="calculate()">គណនាថ្លៃភ្លើង</button>
+    </div>
 
-<div class="input-group">
-<label>លេខគីឡូថ្មី</label>
-<input type="number" id="new_reading">
-</div>
+    <div class="card">
+        <div class="metrics">
+            <div class="metric">
+                <h3>អង្គភាពប្រើប្រាស់</h3>
+                <p id="metric-units">0 kWh</p>
+            </div>
+            <div class="metric">
+                <h3>តម្លៃធ្លាក់ក្នុងកម្រិត</h3>
+                <p id="metric-rate">0 ៛</p>
+            </div>
+            <div class="metric">
+                <h3>ចាស់ → ថ្មី</h3>
+                <p id="metric-range">-</p>
+            </div>
+        </div>
 
-</div>
-
-<div class="tier-box">
-<p>1 - 10 kWh = 380 រៀល</p>
-<p>11 - 50 kWh = 480 រៀល</p>
-<p>51 - 200 kWh = 610 រៀល</p>
-<p>លើសពី 200 kWh = 730 រៀល</p>
-</div>
-
-<button onclick="calculate()">
-គណនា
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="metrics">
-
-<div class="metric">
-<h3>អង្គភាពប្រើ</h3>
-<p id="metric-units">0</p>
-</div>
-
-<div class="metric">
-<h3>តម្លៃមធ្យម</h3>
-<p id="metric-rate">0</p>
-</div>
-
-<div class="metric">
-<h3>ចាស់ → ថ្មី</h3>
-<p id="metric-range">0 → 0</p>
-</div>
-
-</div>
-
-<div class="total">
-<h2>ថ្លៃភ្លើងសរុប</h2>
-<p id="total-display">0</p>
-</div>
-
-</div>
+        <div class="total">
+            <h2>ថ្លៃភ្លើងសរុបដែលត្រូវបង់</h2>
+            <p id="total-display">0 ៛</p>
+        </div>
+    </div>
 
 </div>
 
 <script>
-
+// មុខងារបន្ថែមសញ្ញាក្បៀសចំណាំខ្ទង់ (ឧ. 1,500)
 function fmtKh(number){
     return Math.round(number).toLocaleString('en-US');
 }
 
+// មុខងារបង្ហាញលេខម៉ែត្រឱ្យស្អាត (បើមានលេខក្បៀស បង្ហាញត្រឹម ២ខ្ទង់)
+function formatReading(num) {
+    return Number.isInteger(num) ? num.toString() : num.toFixed(2);
+}
+
 function calculate(){
+    let oldR = parseFloat(document.getElementById("old_reading").value);
+    let newR = parseFloat(document.getElementById("new_reading").value);
 
-    let oldR =
-    parseFloat(document.getElementById("old_reading").value);
-
-    let newR =
-    parseFloat(document.getElementById("new_reading").value);
-
+    // ពិនិត្យតម្លៃបញ្ចូល
     if(isNaN(oldR) || isNaN(newR)){
-        alert("សូមបញ្ចូលលេខម៉ែត្រឱ្យបានត្រឹមត្រូវ");
+        alert("សូមបញ្ចូលលេខម៉ែត្រទាំងចាស់ទាំងថ្មីឱ្យបានត្រឹមត្រូវ!");
         return;
     }
 
     if(newR < oldR){
-        alert("លេខម៉ែត្រថ្មីត្រូវធំជាងលេខម៉ែត្រចាស់");
+        alert("កំហុស៖ លេខម៉ែត្រថ្មីមិនអាចតូចជាងលេខម៉ែត្រចាស់ឡើយ!");
         return;
     }
 
-    let units = newR - oldR;
+    const units = newR - oldR; 
+    let rate = 0; 
 
-    let total = 0;
-
-    let remain = units;
-
-    // កម្រិតទី១
-    if(remain > 0){
-        let tier1 = Math.min(remain,10);
-        total += tier1 * 380;
-        remain -= tier1;
+    // គណនាគុណត្រង់ៗទៅតាមប្លុកកម្រិតសរុប
+    if (units <= 10) { 
+        rate = 380; 
+    } else if (units <= 50) { 
+        rate = 480; 
+    } else if (units <= 200) { 
+        rate = 610; 
+    } else { 
+        rate = 730; 
     }
 
-    // កម្រិតទី២
-    if(remain > 0){
-        let tier2 = Math.min(remain,40);
-        total += tier2 * 480;
-        remain -= tier2;
-    }
+    // គណនាទឹកប្រាក់សរុប
+    let total = units * rate;
 
-    // កម្រិតទី៣
-    if(remain > 0){
-        let tier3 = Math.min(remain,150);
-        total += tier3 * 610;
-        remain -= tier3;
-    }
-
-    // កម្រិតទី៤
-    if(remain > 0){
-        total += remain * 730;
-    }
-
-    let averageRate = 0;
-
-    if(units > 0){
-        averageRate = total / units;
-    }
-
-    document.getElementById("metric-units").innerHTML =
-    units.toFixed(2);
-
-    document.getElementById("metric-rate").innerHTML =
-    fmtKh(averageRate);
-
-    document.getElementById("metric-range").innerHTML =
-    oldR + " → " + newR;
-
-    document.getElementById("total-display").innerHTML =
-    fmtKh(total) + " ៛";
-
+    // បង្ហាញលទ្ធផលនៅលើ UI
+    document.getElementById("metric-units").innerHTML = formatReading(units) + " kWh";
+    document.getElementById("metric-rate").innerHTML = fmtKh(rate) + " ៛";
+    document.getElementById("metric-range").innerHTML = formatReading(oldR) + " → " + formatReading(newR);
+    document.getElementById("total-display").innerHTML = fmtKh(total) + " ៛";
 }
-
 </script>
 
 </body>
